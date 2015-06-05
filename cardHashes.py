@@ -998,9 +998,18 @@ for l in lines:
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 
+def hamming_distance(s1, s2):
+    """Return the Hamming distance between equal-length sequences"""
+    if len(s1) != len(s2):
+        raise ValueError("Undefined for sequences of unequal length")
+    return sum(ch1 != ch2 for ch1, ch2 in zip(s1, s2))
+
 def hashToCardNum(hashStr):
     hashStr = str(hashStr)
     nearestHash = process.extractOne(hashStr,hashArr)[0]
+
+    # USE hamming distance instead!!!
+
     # print hashStr
     # for s,score in process.extract(hashStr, hashArr):
     #     s = str(s)
@@ -1022,11 +1031,11 @@ def getAllCardImages():
             imageNum = int(f.split('.png')[0])
             yield (imageNum, Image.open(cardDir + f))
 
-# for imageNum, cardImage in getAllCardImages():
-#     w, h = cardImage.size
-#     cardImage = cardImage.crop((24, 43, w-24, h-12))
-#     # scipy.misc.imsave('atest.png', cardImage)
-#     # break
-#     hash = imagehash.phash(cardImage)
-#     print imageNum, '-', hash
+for imageNum, cardImage in getAllCardImages():
+    w, h = cardImage.size
+    cardImage = cardImage.crop((24, 43, w-24, h-12))
+    # scipy.misc.imsave('atest.png', cardImage)
+    # break
+    hash = imagehash.phash(cardImage)
+    print imageNum, '-', hash
 
