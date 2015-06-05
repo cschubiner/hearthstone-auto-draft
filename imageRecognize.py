@@ -26,13 +26,12 @@ def getHW(image):
     return (height, width)
 
 def getMostSimilarImageNum(original):
-    hashStr = imagehash.phash(original)
+    hashStr = imagehash.phash(original, 64)
 
     return hashToCardNum(hashStr)
 
 def getMostSimilarCard(original):
     return cardNumToName(getMostSimilarImageNum(original))
-
 
 def callKMScript(cardName, scriptNum):
     pyperclip.copy(cardName)
