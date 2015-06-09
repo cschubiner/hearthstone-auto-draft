@@ -1,38 +1,15 @@
 import os
 import numpy
 from PIL import Image
-from cardNumToName import cardNumToName
-from cardHashes import hashToCardNum
 from cardHashes import hashImage
+from cardHashes import imageToCardName
 import scipy
 import math, operator
 import scipy.misc
 import pyperclip
 import imagehash
 import time
-
-def getAllCardImages():
-    cardDir = 'cardImages/'
-    for f in os.listdir(cardDir):
-        if f.endswith(".png"):
-            imageNum = int(f.split('.png')[0])
-            yield (imageNum, Image.open(cardDir + f))
-
-def imageToNumpy(pic):
-    return numpy.asarray(pic)
-
-def getHW(image):
-    height = len(image)
-    width = len(image[0])
-    return (height, width)
-
-
-def getMostSimilarCard(original):
-    hashStr = hashImage(original)
-
-    imageNum = hashToCardNum(hashStr, original)
-
-    return cardNumToName(imageNum)
+import json
 
 def callKMScript(cardName, scriptNum):
     pyperclip.copy(cardName)
@@ -56,7 +33,7 @@ for i in range(3):
 
     scipy.misc.imsave('test' + str(i) + '.png', cardImage)
 
-    cardName = getMostSimilarCard(cardImage)
+    cardName = imageToCardName(cardImage)
     print cardName
     callKMScript(cardName, i)
     time.sleep(1)
