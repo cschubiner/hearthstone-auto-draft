@@ -3,6 +3,7 @@ import numpy
 from PIL import Image
 from cardNumToName import cardNumToName
 from cardHashes import hashToCardNum
+from cardHashes import hashImage
 import scipy
 import math, operator
 import scipy.misc
@@ -25,13 +26,13 @@ def getHW(image):
     width = len(image[0])
     return (height, width)
 
-def getMostSimilarImageNum(original):
-    hashStr = imagehash.phash(original, 64)
-
-    return hashToCardNum(hashStr)
 
 def getMostSimilarCard(original):
-    return cardNumToName(getMostSimilarImageNum(original))
+    hashStr = hashImage(original)
+
+    imageNum = hashToCardNum(hashStr, original)
+
+    return cardNumToName(imageNum)
 
 def callKMScript(cardName, scriptNum):
     pyperclip.copy(cardName)
@@ -41,7 +42,7 @@ def callKMScript(cardName, scriptNum):
 os.system("pngpaste 3cards.png")
 draftCards = Image.open('3cards.png')
 w, h = draftCards.size
-draftCards = draftCards.crop((510, 456, 1696, 594+348))
+draftCards = draftCards.crop((514, 456, 1696, 594+348))
 # scipy.misc.imsave('Dtest.png', draftCards)
 # exit()
 
@@ -52,11 +53,10 @@ spacing = (dcw - cardSize*3)/2
 for i in range(3):
     w, h = draftCards.size
     cardImage = draftCards.crop((0 + (cardSize+spacing)*i, 0, (cardSize+spacing)*i + cardSize, h))
-    # cardImage = cardImage.resize((238, 340), Image.ANTIALIAS)
 
     scipy.misc.imsave('test' + str(i) + '.png', cardImage)
 
     cardName = getMostSimilarCard(cardImage)
     print cardName
     callKMScript(cardName, i)
-    # time.sleep(1)
+    time.sleep(1)

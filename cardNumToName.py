@@ -990,7 +990,7 @@ m = dict()
 for l in lines:
 	numStr = l.split('</a>')[1].strip()
 	num = int(numStr)
-	card = l.split('</a>')[0].lower().strip()
+	card = l.split('</a>')[0].strip()
 	m[num] = card
 
 def cardNumToName(num):
