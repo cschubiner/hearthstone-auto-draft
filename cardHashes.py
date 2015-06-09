@@ -1,15 +1,18 @@
 import numpy
 from PIL import Image
 import json
+from downloadHashes import hashImage
 
-cardsJson = json.load(open('cardsWithHashes.json','r'))
 hashArr = list()
 m = dict()
 numToNameDict = dict()
-for c in cardsJson['cards']:
-    hashArr.append(c['imageHash'])
-    m[c['imageHash']] = c['id']
-    numToNameDict[c['id']] = c['name']
+with open('cardsWithHashes.json','r') as j:
+    cardsJson = json.load(j)
+    for c in cardsJson['cards']:
+        hashArr.append(c['imageHash'])
+        m[c['imageHash']] = c['id']
+        numToNameDict[c['id']] = c['name']
+
 
 def imageNumToName(iNum):
     return numToNameDict[iNum]
@@ -63,7 +66,7 @@ def imageToCardName(original):
     # print process.extract(hashStr, hashArr)
     # return m[process.extractOne(hashStr, hashArr)[0]]
 
-    print hashStr
+    # print hashStr
     scores = list()
     for h in hashArr:
         score = hamming_distance(hashStr, h)
@@ -89,12 +92,6 @@ def imageToCardName(original):
 
     return imageNumToName(bestImageNum)
 
-import imagehash
-import os
 from PIL import Image
 import scipy
 import scipy.misc
-
-def hashImage(image):
-    h = str(imagehash.dhash(image)) + '-' + str(imagehash.phash(image))
-    return h

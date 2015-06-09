@@ -1,7 +1,7 @@
 import os
 import numpy
 from PIL import Image
-from cardHashes import hashImage
+from downloadHashes import hashImage
 from cardHashes import imageToCardName
 import scipy
 import math, operator
@@ -19,12 +19,12 @@ def callKMScript(cardName, scriptNum):
 os.system("pngpaste 3cards.png")
 draftCards = Image.open('3cards.png')
 w, h = draftCards.size
-draftCards = draftCards.crop((514, 456, 1696, 594+348))
+draftCards = draftCards.crop((515, 456, 1696, 594+348))
 # scipy.misc.imsave('Dtest.png', draftCards)
 # exit()
 
 dcw, dch = draftCards.size
-cardSize = int(.2996633 * float(dcw))
+cardSize = int(.2948633 * float(dcw))
 
 spacing = (dcw - cardSize*3)/2
 for i in range(3):
