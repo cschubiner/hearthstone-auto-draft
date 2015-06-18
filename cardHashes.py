@@ -82,7 +82,9 @@ def imageToCard(original):
     # print process.extract(hashStr, hashArr)
     # return m[process.extractOne(hashStr, hashArr)[0]]
 
-    print hashStr
+    with open("output_hashes.txt", "a") as myfile:
+        myfile.write(hashStr + '\n')
+
     scores = list()
     for h in hashArr:
         score = hamming_distance(hashStr, h)
