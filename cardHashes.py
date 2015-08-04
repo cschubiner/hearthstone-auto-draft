@@ -94,9 +94,10 @@ def imageToCard(original):
     for hashScore, hsh in scores:
         cardNum = m[hsh]
         ret = imageNumToName(cardNum), imageNumToRarity(cardNum)
-        print ret
-        if cardNum in manualHashNums and hashScore > 7:
+        print ret, hashScore
+        if cardNum in manualHashNums and hashScore > 30:
             continue
+        print
         yield ret
 
 from PIL import Image

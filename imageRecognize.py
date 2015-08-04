@@ -36,7 +36,7 @@ spacing = (dcw - cardSize*3)/2
 firstRarity = None
 for i in range(3):
     w, h = draftCards.size
-    cardImage = draftCards.crop((0 + (cardSize+spacing)*i, 0, (cardSize+spacing)*i + cardSize, h))
+    cardImage = draftCards.crop(((cardSize+spacing)*i, 0, (cardSize+spacing)*i + cardSize, h))
 
     scipy.misc.imsave('test' + str(i) + '.png', cardImage)
 
@@ -47,6 +47,12 @@ for i in range(3):
         elif isSameRarity(firstRarity, rarity):
             break
 
-
     # print cardName, rarity,'\n'
-    callKMScript(cardName, i)
+
+    splName = cardName.split(' ')
+    shortName = ' '.join([x[:(8/len(splName))] for x in splName])
+    # if i == 0:
+    #     shortName = shortName[0] + shortName
+    # print shortName
+    print cardName
+    callKMScript(shortName, i)
